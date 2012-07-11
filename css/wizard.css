@@ -1,0 +1,32 @@
+#hand {
+    font-size: 36px;
+    margin: 10px;
+}
+
+.card {
+		text-align:center;
+    background-color: white;
+    padding: 25px 0;
+    -webkit-border-radius: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    float: left;
+    margin: 2px;
+    width: 45px;
+    font-size: 28px;
+}
+
+.card-clickable {
+    cursor: pointer;
+}
+
+.join {
+    margin-right: 15px;
+}
+
+.gamePlayer {
+    margin-right: 10px;
+}
+.modal {
+	margin: -150px 0 0 -280px;	
+};

@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Wiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/wizard.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <!--<link rel="shortcut icon" href="images/favicon.ico">-->
+    <!--<link rel="apple-touch-icon" href="images/apple-touch-icon.png">-->
+    <!--<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">-->
+    <!--<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Wiz</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Play</a></li>
+              <li><a href="#about">About</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+        <div class="content" id="home">
+            <h3>Games</h3>
+            <div id="gamesList"></div>
+            <button class="btn" id="createGame">Create New Game</button>
+        </div>
+        <div class="content" id="game" style="display:none;">
+            <div class="container-fluid">
+              <div class="row-fluid">
+                <div class="span12">
+                    <h2 id="gm-id"></h3>
+                </div>
+              </div>
+              <div class="row-fluid">
+                <div class="span2">
+                    <div class="well" id="gameSideBar">
+                        <h4>Players</h4>
+                        <div id="gameMembers">
+                        </div>
+                    </div>
+                </div>
+                <div class="span10">
+                    <div>
+                        <div id="statusMsg" class="alert alert-info"></div>
+                    </div>
+                    <p id="trumpArea" style="display: none">
+                        Current Trump:
+                        <span id="trump">
+                        </span>
+                        Total Bids:
+                        Round:
+                    </p>
+                    <a id="shuffle" href="#" class="btn btn-primary">Start game</a>
+                    <div id="shuffleMsg" class="alert alert-error">At least 3 players must join before you can start the game</div>
+                    <div id="handArea" class="well" style="display: none">
+                        Hand:
+                        <div id="hand">
+
+                        </div>
+                        <div style="clear: both"></div>
+                    </div>
+                    <div id="bidArea" style="display:none">
+                        <input id="bid" type="text"></input>
+                        <button id="submitBid" class="btn">Submit Bid</button>
+                    </div>
+                    <div id="activityLog">
+                        
+                    </div>
+                </div>
+              </div>
+            </div>
+            
+        </div>
+
+    </div> <!-- /container -->
+
+    <div class="modal" id="nameModal">
+      <div class="modal-header">
+        <h3>Choose Name</h3>
+      </div>
+      <div class="modal-body">
+        <input id="nameChoice" placeholder="name"></input>
+      </div>
+      <div class="modal-footer">
+        <a href="#" id="submitName" class="btn btn-primary">Done</a>
+      </div>
+    </div>
+
+    <div class="modal" id="trumpModal" style="display:none;"t>
+      <div class="modal-header">
+        <h3>Choose a suit for this hand:</h3>
+      </div>
+      <div class="modal-body" style="margin: 0 auto;">
+        <span class="card" id="pickSuit_s">&spades;</span>
+        <span class="card" id="pickSuit_c">&clubs;</span>
+        <span class="card" id="pickSuit_h">&hearts;</span>
+        <span class="card" id="pickSuit_d">&diams;</span>
+    </div>
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/bootstrap-modal.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/script.js"></script>
+
+  </body>
+</html>
+
