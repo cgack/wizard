@@ -6,14 +6,14 @@ var express = require("express"),
     dck = require("./deck.js"),
     players = {},
     games = [];
-/* USE FOR Heroku until they support full websocket implementation *.
+/* USE FOR Heroku until they support full websocket implementation */
 io.configure(function() {
     io.set('transports', ['xhr-polling']);
     io.set('polling duration', 10);
-    io.set('log level', 1);
+    /* ACCORDING THE HEROKU WE DON'T NEED THIS io.set('log level', 1); */
 });
-*/
-app.listen(8080);
+
+app.listen(process.env.PORT); //8080
 
 app.get("/", function( req, res ) {
     res.sendfile(__dirname + "/index.html");
