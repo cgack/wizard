@@ -1,6 +1,8 @@
 var express = require("express"),
-    app = express.createServer(),
-    io = require("socket.io").listen(app),
+    app = express(),
+    http = require("http"),
+    server = http.createServer(app),
+    io = require("socket.io").listen(server),
     ply = require("./player.js"),
     gm = require("./game.js"),
     dck = require("./deck.js"),
@@ -13,7 +15,7 @@ io.configure(function() {
     /* ACCORDING THE HEROKU WE DON'T NEED THIS io.set('log level', 1); */
 });
 
-app.listen(process.env.PORT); //8080
+server.listen(process.env.PORT || 8080); //8080
 
 app.get("/", function( req, res ) {
     res.sendfile(__dirname + "/index.html");
