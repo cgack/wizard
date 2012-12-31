@@ -278,6 +278,19 @@
     socket.on("trumpSuit", function(data) {
         Wiz.addActivity("Trump has been choosen to be: " + Wiz.getSuitSymbol(data.suit));
     });
+
+    socket.on("userAuthSuccess", function(data) {
+        var nameChoice = data.name;
+         $("#nameModal").modal("hide"); //Hide on success
+        Wiz.playerName = nameChoice;
+        Wiz.addNameToList(nameChoice, socket.socket.sessionid);
+    });
+
+    socket.on("userAuthFailure", function(data) {
+        var name = data.name;
+        var msg = data.message;
+        $("#signInMsg").text(msg);
+    });
     // EVENTS, etc.
 
     $(document).on( 'click', '#submitBid' , function() {
@@ -316,13 +329,28 @@
 
     $(document).on("click", "#submitName", function(){
         var nameChoice = $("#nameChoice").val();
-        if (nameChoice !== "") {
-            $("#nameModal").modal("hide");
-            Wiz.playerName = nameChoice;
-            socket.emit('nameChosen', { name: nameChoice });
-            Wiz.addNameToList(nameChoice, socket.socket.sessionid);
+        var pwd = $("#password").val();
+        if (nameChoice !== "" && pwd !== "") {
+            //$("#nameModal").modal("hide"); //Hide on success
+            //Wiz.playerName = nameChoice;
+            socket.emit('signIn', { name: nameChoice, pwd: pwd });
+            //Wiz.addNameToList(nameChoice, socket.socket.sessionid);
         }
     });
+
+//check to see if the name is available.. if so close the dialog on the socket submission.
+    $(document).on("click", "#requestName", function(){
+        var nameChoice = $("#nameChoice").val();
+        var pwd = $("#password").val();
+        if (nameChoice !== "" && pwd !== "") {
+            //$("#nameModal").modal("hide"); Hide on return from server
+            //Wiz.playerName = nameChoice;
+            socket.emit('nameChosen', { name: nameChoice, pwd: pwd });
+            //Wiz.addNameToList(nameChoice, socket.socket.sessionid);
+        }
+    });
+
+
 
     $("[id^=pickSuit]").click(function() {
         var suit = $(this).attr("id").split("_")[1];

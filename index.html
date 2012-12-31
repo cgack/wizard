@@ -110,13 +110,18 @@
 
     <div class="modal" id="nameModal">
       <div class="modal-header">
-        <h3>Choose Name</h3>
+        <h3>Sign In or Create an Account</h3>
       </div>
       <div class="modal-body">
-        <input id="nameChoice" placeholder="name"></input>
+        <div id="signInMsg" class="alert alert-info"></div>
+        <label for="nameChoice">Username:</label>
+        <input id="nameChoice" placeholder="username"></input>
+        <label for="password">Password:</label>
+        <input id="password" type="password" placeholder="password"></input>
       </div>
       <div class="modal-footer">
-        <a href="#" id="submitName" class="btn btn-primary">Done</a>
+        <a href="#" id="submitName" class="btn btn-primary">Sign In</a>
+        <a href="#" id="requestName" class="btn btn-secondary">Create Account</a>
       </div>
     </div>
 

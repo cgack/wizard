@@ -5,7 +5,8 @@ var express = require("express"),
     io = require("socket.io").listen(server),
     ply = require("./player.js"),
     gm = require("./game.js"),
-    dck = require("./deck.js"),
+    db = require("./db.js"),
+    bcrypt = require("bcrypt"),
     players = {},
     games = [];
 /* USE FOR Heroku until they support full websocket implementation */
@@ -25,6 +26,21 @@ app.get("/test", function(req, res) {
 });
 
 app.use(express.static(__dirname));
+
+//initialize the db connection
+db.initDB();
+//init models?
+var mongoose = require("mongoose"),
+    Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
+
+var oUser = new Schema({
+    userid : ObjectId,
+    username : String,
+    pwHash : String
+});
+
+var User = mongoose.model("User", oUser);
 
 io.sockets.on('connection', function (socket) {
     //intialize the players as they join the site
@@ -70,8 +86,67 @@ io.sockets.on('connection', function (socket) {
     //  or similar to encrypt our users pwd using the genSalt method that way we can get returning userz
     //  this also means we'll want to get rid of the prompt and make a login button (i think):w
     socket.on('nameChosen', function (data) {
-        console.log("name chosen: " + data.name);
         player.name = data.name;
+        
+        User.findOne({username: data.name}, function(err, usrData) {
+                if (usrData === null) {
+                    //create
+                    bcrypt.genSalt(10, function(err, salt) {
+                        
+                        bcrypt.hash(data.pwd, salt, function(err, hash) {
+                            console.log("hash: " + hash);
+                            console.log("salt: " + salt);
+                            console.log("usrnm:" + player.name);
+                            var newUser = new User({ username: player.name, pwHash: hash });
+                            newUser.save(function(err) {
+                                if (err) {
+                                    console.log("err: " + err);
+                                    socket.emit("userAuthFailure", {name: player.name, message: err});
+                                    return;
+                                }
+                                socket.emit("userAuthSuccess", {name: player.name});
+                            });
+                        });
+                    });
+                    
+                } else {
+                    console.log("this user exists: " + usrData);
+                    //emit to client
+                    socket.emit("userAuthFailure", {name: player.name, message: "User already exists"});
+                }
+        });
+
+
+    });
+
+    socket.on('signIn', function (data) {
+        player.name = data.name;
+        
+        User.findOne({username: data.name}, function(err, usrData) {
+                if (usrData === null) {
+                    //user does not exist check username
+                    console.log("user doesn't exist");
+                    socket.emit("userAuthFailure", {name: player.name, message: "User does not exist"});
+
+                } else {
+                    //Check if pwd matches
+                    bcrypt.compare(data.pwd, usrData.pwHash, function(err, res) {
+                        if (res) {
+                            //sign in success
+                            socket.emit("userAuthSuccess", {name: player.name});
+                        } else {
+                            if (err) {
+                                socket.emit("userAuthFailure", {name: player.name, message: err});
+                            } else {
+                                socket.emit("userAuthFailure", {name: player.name, message: "Invalid username or password"});
+                            }
+                        }
+
+                        
+                    });
+                }
+        });
+
     });
     
     //join a game
