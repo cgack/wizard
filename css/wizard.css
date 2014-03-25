@@ -4,7 +4,7 @@
 }
 
 .card {
-		text-align:center;
+        text-align:center;
     background-color: white;
     padding: 25px 0;
     -webkit-border-radius: 5px;
@@ -12,7 +12,7 @@
     border-radius: 5px;
     float: left;
     margin: 2px;
-    width: 45px;
+    width: 2em;
     font-size: 28px;
 }
 
@@ -28,5 +28,5 @@
     margin-right: 10px;
 }
 .modal {
-	margin: -150px 0 0 -280px;	
+    margin: -150px 0 0 -280px;  
 };
