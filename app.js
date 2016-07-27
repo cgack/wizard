@@ -9,11 +9,11 @@ var express = require("express"),
     players = {},
     games = [];
 /* USE FOR Heroku until they support full websocket implementation */
-io.configure(function() {
-    io.set('transports', ['xhr-polling']);
-    io.set('polling duration', 10);
-    /* ACCORDING THE HEROKU WE DON'T NEED THIS io.set('log level', 1); */
-});
+// io.configure(function() {
+//     io.set('transports', ['xhr-polling']);
+//     io.set('polling duration', 10);
+//     /* ACCORDING THE HEROKU WE DON'T NEED THIS io.set('log level', 1); */
+// });
 
 server.listen(process.env.PORT || 8080); //8080
 
